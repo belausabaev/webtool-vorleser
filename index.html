@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <title>Speech Synthesizer</title>
+    <style>
+        #maxi {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: medium;
+        }
+
+        #heading {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: medium;
+        }
+
+        #maxi td,
+        #maxi th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #maxi tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #maxi tr:hover {
+            background-color: #ddd;
+        }
+
+        #maxi th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+    <script src="js/tweakpane.min.js"></script>
+    <script src="js/Tone.js"></script>
+    <!-- p5.js  -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js">
+        </script>
+    <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+
+</head>
+
+<body>
+
+
+    <p>Stimme Moritz</p>
+
+
+    <p>Your Speech Resource Key</p>
+    <p>
+        <input id="resourceKey" type="text" size="40" placeholder="Your resource key (32 characters)" value=""
+            onblur="updateSrc2()">
+    </p>
+    <br>
+
+
+
+
+
+
+    <p>
+        <button id="inhalt" onclick="setMode(1)">Zelleninhalt</button>
+        <button id="koordinaten" onclick="setMode(2)">Zelleninhalt und koordinaten</button>
+        <button id="info" onclick="setMode(4)">Zellenkoordinaten</button>
+
+    </p>
+
+
+    <table id="maxi" style="overflow-y:scroll;width: 100%;height: 100%;">
+
+        <tr id="heading">
+            <th>
+                <div></div>
+            <th scope="col" onclick="getSpeechFromAzure_empty(1,0)" id="A">
+                <div>A</div>
+            <th scope="col" onclick="getSpeechFromAzure_empty(2,0)">
+                <div>B</div>
+            <th scope="col" onclick="getSpeechFromAzure_empty(3,0)">
+                <div>C</div>
+            </th>
+            <th scope="col" onclick="getSpeechFromAzure_empty(4,0)">
+                <div>D</div>
+            </th>
+            <th scope="col" onclick="getSpeechFromAzure_empty(5,0)">
+                <div>E</div>
+            </th>
+        <tr scope="row" id="heading">
+            <th onclick="getSpeechFromAzure_empty(0,1)">
+                <div>1</div>
+            <td scope="col" onclick="getSpeechFromAzure_empty(1,1)">leer</td>
+            <td scope="col" onclick="getSpeechFromAzure_empty(2,1)">leer</td>
+            <td scope="col" onclick="getSpeechFromAzure_empty(3,1)">leer</td>
+            <td scope="col" onclick="getSpeechFromAzure_empty(4,1)">leer</td>
+            <td scope="col" onclick="getSpeechFromAzure_empty(5,1)">leer</td>
+
+        <tr>
+            <th scope="row" onclick="getSpeechFromAzure_empty(0,2)">
+                <div>2</div>
+            </th>
+            <td onclick="getSpeechFromAzure_empty(1,2)">leer</td>
+            <td scope="row" id="geb" onclick="getSpeechFromAzure_empty(2,2)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(3,2)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(4,2)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(5,2)">leer</td>
+        </tr>
+        <tr>
+            <th scope="row" onclick="getSpeechFromAzure_empty(0,3)">
+                <div>3</div>
+            </th>
+            <td id="pos" onclick="getSpeechFromAzure_empty(1,3)">leer</td>
+            <td scope="row" id="geb" onclick="getSpeechFromAzure_empty(2,3)">leer</td>
+            <td id="meng" onclick="getSpeechFromAzure_empty(3,3)">leer</td>
+            <td id="pr" onclick="getSpeechFromAzure_empty(4,3)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(5,3)">leer</td>
+        </tr>
+        <tr>
+            <th scope="row" onclick="getSpeechFromAzure_empty(0,4)">
+                <div>4</div>
+            </th>
+            <td id="pos" onclick="getSpeechFromAzure_empty(1,4)">leer</td>
+            <td id="geb" onclick="getSpeechFromAzure_empty(2,4)">leer</td>
+            <td id="meng" onclick="getSpeechFromAzure_empty(3,4)">leer</td>
+            <td id="pr" onclick="getSpeechFromAzure_empty(4,4)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(5,4)">leer</td>
+        </tr>
+        <tr>
+            <th scope="row" onclick="getSpeechFromAzure_empty(0,5)">
+                <div>5</div>
+            </th>
+            <td onclick="getSpeechFromAzure_empty(1,5)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(2,5)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(3,5)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(4,5)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(5,5)">leer</td>
+        </tr>
+        <tr>
+            <th scope="row" onclick="getSpeechFromAzure_empty(0,6)">
+                <div>6</div>
+            </th>
+            <td onclick="getSpeechFromAzure_empty(1,6)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(2,6)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(3,6)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(4,6)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(5,6)">leer</td>
+        </tr>
+        <tr>
+            <th scope="row" onclick="getSpeechFromAzure_empty(0,7)">
+                <div>7</div>
+            </th>
+            <td onclick="getSpeechFromAzure_empty(1,7)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(2,7)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(3,7)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(4,7)">leer</td>
+            <td onclick="getSpeechFromAzure_empty(5,7)">leer</td>
+        </tr>
+
+    </table>
+
+    <p>
+        <button id="inhalt" onclick="setMode(1)">Zelleninhalt</button>
+        <button id="koordinaten" onclick="setMode(2)">Zelleninhalt und koordinaten</button>
+        <button id="info" onclick="setMode(4)">Zellenkoordinaten</button>
+        <button id="sz" onclick="setMode(3)">Zelleninhalt mit Spalte und Zeile Vorlesen</button>
+        <button id="sz" onclick="setMode(5)">Ergebnis</button>
+    </p>
+
+
+    <table id="maxi" style="overflow-y:scroll; width:100%; height: 100%;">
+
+        <tr id="heading">
+            <th>
+                <div></div>
+            <th scope="col" onclick="getSpeechFromAzure_modus(1,0)" id="A">
+                <div>A</div>
+            <th scope="col" onclick="getSpeechFromAzure_modus(2,0)">
+                <div>B</div>
+            <th scope="col" onclick="getSpeechFromAzure_modus(3,0)">
+                <div>C</div>
+            </th>
+            <th scope="col" onclick="getSpeechFromAzure_modus(4,0)">
+                <div>D</div>
+            </th>
+            <th scope="col" onclick="getSpeechFromAzure_modus(5,0)">
+                <div>E</div>
+            </th>
+        <tr scope="row" id="heading">
+            <th onclick="getSpeechFromAzure_modus(0,1)">
+                <div>1</div>
+            <td scope="col" onclick="getSpeechFromAzure_modus(1,1)">Position</td>
+            <td scope="col" onclick="getSpeechFromAzure_modus(2,1)">Gebäcksorte</td>
+            <td scope="col" onclick="getSpeechFromAzure_modus(3,1)">Menge</td>
+            <td scope="col" onclick="getSpeechFromAzure_modus(4,1)">Einzelpreis</td>
+            <td scope="col" onclick="getSpeechFromAzure_modus(5,1)">Einnahmen</td>
+        <tr id="zeile1">
+            <th scope="row" onclick="getSpeechFromAzure_modus(0,2)">
+                <div>2</div>
+            </th>
+            <td id="pos" onclick="getSpeechFromAzure_modus(1,2)">1</td>
+            <td scope="row" id="geb" onclick="getSpeechFromAzure_modus(2,2)">Zwetschgenmännle</td>
+            <td id="meng" onclick="getSpeechFromAzure_modus(3,2)">120</td>
+            <td id="pr" onclick="getSpeechFromAzure_modus(4,2)">5.00 Euro</td>
+            <td id="ein1" onclick="getSpeechFromAzure_modus(5,2)" ondblclick="getPrompt(5,2)"></td>
+        </tr>
+        <tr id="zeile2">
+            <th scope="row" onclick="getSpeechFromAzure_modus(0,3)">
+                <div>3</div>
+            </th>
+            <td id="pos" onclick="getSpeechFromAzure_modus(1,3)">2</td>
+            <td scope="row" id="geb" onclick="getSpeechFromAzure_modus(2,3)">Reiterle</td>
+            <td id="meng" onclick="getSpeechFromAzure_modus(3,3)">98</td>
+            <td id="pr" onclick="getSpeechFromAzure_modus(4,3)">3.00 Euro</td>
+            <td id="ein2" onclick="getSpeechFromAzure_modus(5,3)" ondblclick="getPrompt(5,3)"></td>
+        </tr>
+        <tr id="zeile3">
+            <th scope="row" onclick="getSpeechFromAzure_modus(0,4)">
+                <div>4</div>
+            </th>
+            <td id="pos" onclick="getSpeechFromAzure_modus(1,4)">3</td>
+            <td id="geb" onclick="getSpeechFromAzure_modus(2,4)">Elise Pflaume-Zimt</td>
+            <td id="meng" onclick="getSpeechFromAzure_modus(3,4)">130</td>
+            <td id="pr" onclick="getSpeechFromAzure_modus(4,4)">9.50 Euro</td>
+            <td id="ein3" onclick="getSpeechFromAzure_modus(5,4)" ondblclick="getPrompt(5,4)"></td>
+        </tr>
+        <tr id="zeile4">
+            <th scope="row" onclick="getSpeechFromAzure_modus(0,5)">
+                <div>5</div>
+            </th>
+            <td onclick="getSpeechFromAzure_modus(1,5)">4</td>
+            <td onclick="getSpeechFromAzure_modus(2,5)">Südliche Elise</td>
+            <td onclick="getSpeechFromAzure_modus(3,5)">100</td>
+            <td onclick="getSpeechFromAzure_modus(4,5)">9.50 Euro</td>
+            <td id="ein4" onclick="getSpeechFromAzure_modus(5,5)" ondblclick="getPrompt(5,5)"></td>
+        </tr>
+        <tr id="zeile5">
+            <th scope="row" onclick="getSpeechFromAzure_modus(0,6)">
+                <div>6</div>
+            </th>
+            <td onclick="getSpeechFromAzure_modus(1,6)">5</td>
+            <td onclick="getSpeechFromAzure_modus(2,6)">Mandel Schoko-Traum</td>
+            <td onclick="getSpeechFromAzure_modus(3,6)">103</td>
+            <td onclick="getSpeechFromAzure_modus(4,6)">9.50 Euro</td>
+            <td id="ein5" onclick="getSpeechFromAzure_modus(5,6)" ondblclick="getPrompt(5,6)"></td>
+        </tr>
+        <tr id="zeile6">
+            <th scope="row" onclick="getSpeechFromAzure_modus(0,7)">
+                <div>7</div>
+            </th>
+            <td onclick="getSpeechFromAzure_modus(1,7)">6</td>
+            <td onclick="getSpeechFromAzure_modus(2,7)">Bio-Christstollen</td>
+            <td onclick="getSpeechFromAzure_modus(3,7)">55</td>
+            <td onclick="getSpeechFromAzure_modus(4,7)">10 Euro</td>
+            <td id="ein6" onclick="getSpeechFromAzure_modus(5,7)" ondblclick="getPrompt(5,7)"></td>
+        </tr>
+
+    </table>
+
+
+    <p>
+
+    </p>
+    <br>
+    <table id="maxi" style="overflow-y:scroll">
+        <tr id="heading">
+            <th>
+                <div>Num</div>
+            <th colspan="3">
+                <div>Spracheingabe - Aufgabenstellung - Aufgabenkontext</div>
+            <th>
+                <div>Antwort Maxi</div>
+
+
+
+
+        <tr onclick="getSpeechFromAzure('Ich bin Moritz')">
+            <td></td>
+            <td>Begrüßung</td>
+            <td colspan="4">ich bin Moritz</td>
+        </tr>
+
+
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+
+
+        <tr
+            onclick="getSpeechFromAzure('Du kannst mich fragen wo du bist und wie du zu einer bestimmten Zelle in der Tabelle kommst')">
+            <td></td>
+            <td>Anleitung Leeres Excel Overlay</td>
+            <td colspan="4">Du kannst mich fragen wo du bist und wie du zu einer bestimmten Zelle in der Tabelle kommst
+            </td>
+        </tr>
+
+        <tr onclick="getSpeechFromAzure('Möchtest Du zu einer Tabellenzelle navigieren?')">
+            <td></td>
+            <td>Anleitung Leeres Excel Overlay</td>
+            <td colspan="4">Möchtest Du zu einer Tabellenzelle navigieren?</td>
+        </tr>
+
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+
+
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+
+
+        <tr onclick="getSpeechFromAzure('Nenne mir Überschriften zu denen zu navigieren möchtest')">
+            <td></td>
+            <td>Anleitung Excel Overlay mit Überschriften</td>
+            <td colspan="4">Nenne mir Überschriften zu denen zu navigieren möchtest. </td>
+        </tr>
+
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+
+
+
+
+
+        <tr onclick="getSpeechFromAzure('linke Hand')">
+            <td></td>
+            <td colspan="3">[Handinfo für die Koordinaten]</td>
+            <td>linke Hand</td>
+        </tr>
+
+        <tr onclick="getSpeechFromAzure('rechte Hand')">
+            <td></td>
+            <td colspan="3">[Handinfo für die Koordinaten]</td>
+            <td>rechte Hand</td>
+        </tr>
+
+        <tr onclick="getSpeechFromAzure('linke Hand auf')">
+            <td></td>
+            <td colspan="3">[Handinfo für die Koordinaten]</td>
+            <td>linke Hand auf</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('rechte Hand auf')">
+            <td></td>
+            <td colspan="3">[Handinfo für die Koordinaten]</td>
+            <td>rechte Hand auf</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('linke Hand über')">
+            <td></td>
+            <td colspan="3">[Handinfo für die Koordinaten]</td>
+            <td>linke Hand über</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('rechte Hand über')">
+            <td></td>
+            <td colspan="3">[Handinfo für die Koordinaten</td>
+            <td>rechte Hand über</td>
+        </tr>
+
+
+        <tr onclick="getSpeechFromAzure('rechte Hand eine Zelle nach links')">
+            <td></td>
+            <td colspan="3">[Navigationsinfo]</td>
+            <td>rechte Hand eine Zelle nach links</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('rechte Hand eine Zelle nach rechts')">
+            <td></td>
+            <td colspan="3">[Navigationsinfo]</td>
+            <td>rechte Hand eine Zelle nach rechts</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('rechte Hand eine Zelle nach oben')">
+            <td></td>
+            <td colspan="3">[Navigationsinfo]</td>
+            <td>rechte Hand eine Zelle nach oben</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('rechte Hand eine Zelle nach unten')">
+            <td></td>
+            <td colspan="3">[Navigationsinfo]</td>
+            <td>rechte Hand eine Zelle nach unten</td>
+        </tr>
+
+        <tr onclick="getSpeechFromAzure('rechte Hand eine Zelle auf drei Uhr')">
+            <td></td>
+            <td colspan="3">[Navigationsinfo]</td>
+            <td>rechte Hand eine Zelle auf drei Uhr</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('rechte Hand eine Zelle auf 12 Uhr')">
+            <td></td>
+            <td colspan="3">[Navigationsinfo]</td>
+            <td>rechte Hand eine Zelle auf 12 Uhr</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('rechte Hand eine Zelle auf 6 Uhr')">
+            <td></td>
+            <td colspan="3">[Navigationsinfo]</td>
+            <td>rechte Hand eine Zelle auf 6 Uhr</td>
+        </tr>
+        <tr onclick="getSpeechFromAzure('rechte Hand eine Zelle auf 9 Uhr')">
+            <td></td>
+            <td colspan="3">[Navigationsinfo]</td>
+            <td>rechte Hand eine Zelle auf 9 Uhr</td>
+        </tr>
+
+
+        <tr onclick="getSpeechFromAzure('tippe in die Zelle, um den Inhalt der Zelle zu hören')">
+            <td></td>
+            <td colspan="3">Was kann ich hier machen?/ Was soll ich machen?</td>
+            <td>tippe in die Zelle, um den Inhalt der Zelle zu hören</td>
+        </tr>
+
+
+    </table>
+
+
+
+    <div id="canvas">
+        <script src="canvas.js"></script>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="skript_maxi.js"></script>
+
+<!--
+    <script src="src/gui.js"></script>
+-->
+
+
+
+</body>
+
+</html>
